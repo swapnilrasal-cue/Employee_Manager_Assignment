@@ -31,10 +31,10 @@ export class LoginComponent implements OnInit {
       alert("successfully login");
       this.isLoading = false;
       this.router.navigate(['/home'])
-      }, Error => {
-        console.log(Error);
-        this.error = "Error Occured";
+      }, (error) => {
         this.isLoading = false;
+        // this.formError = true;
+        this.error = error
       }
       );
       this.loginForm.reset();

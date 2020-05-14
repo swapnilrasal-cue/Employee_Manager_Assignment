@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { User } from '../Models/user.model'
 import { EmailValidator } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { LoginResponseData} from '../Models/authentication.model';
 import { Authentication } from '../Models/authentication.model'
-import { BehaviorSubject, from, Subject } from 'rxjs';
-import { tap , take , exhaustMap, map } from 'rxjs/operators';
+import { BehaviorSubject, from, Subject, throwError } from 'rxjs';
+import { tap , take , exhaustMap, map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -72,7 +72,8 @@ export class AuthenticationService {
           returnSecureToken: true 
         }
         )
-        .pipe(tap(responseData =>{
+        .pipe(catchError((errorRes) => this.handleErrorMessage(errorRes)),
+          tap(responseData =>{
           this.handleAuthentication(
             responseData.email,
             responseData.localId,
@@ -125,7 +126,7 @@ export class AuthenticationService {
   
      onLogout(){
       localStorage.removeItem('Data');
-      this.router.navigate(['login'])
+      this.router.navigate(['/login'])
       this.userAuthentication.next(null);
       if(this.tokenExpirationTimer){
         clearTimeout(this.tokenExpirationTimer);
@@ -174,6 +175,34 @@ export class AuthenticationService {
     //   });
     // }
   
+    private handleErrorMessage(errorRes: HttpErrorResponse) {
+      let errorMessage = 'An unknown error occurred!';
+      if (!errorRes.error || !errorRes.error.error) {
+        return throwError(errorMessage);
+      }
+      switch (errorRes.error.error.message) {
+        
+        case 'EMAIL_NOT_FOUND':
+          errorMessage = `There is No Existing User Record Corresponding 
+          to the Provided Identifier.`;
+          break;
+  
+        case 'INVALID_PASSWORD':
+          errorMessage = 'The Password that you have Entered is Incorrect.'
+          break;
+    
+        case 'USER_DISABLED':
+          errorMessage = 'The User Account has been Disabled by an dministrator.';
+          break;
+  
+        default:
+          errorMessage = 'Try Again Later.'
+          break;
+      }
+  
+      return throwError(errorMessage);
+    }
+
      getCurrentLoggedInUserInfo(){
       return this.users.find(x => x.loginStatus == true);
      }

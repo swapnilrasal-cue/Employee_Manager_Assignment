@@ -25,8 +25,8 @@ export class ProfileComponent implements OnInit {
     ngOnInit(): void {
       this.authenticationService.getUserDetail();
       this.authenticationService.usersChangedState.subscribe((users) => {
-        this.isLoading = false;
-        this.users = users;
+      this.isLoading = false;
+      this.users = users;
       });
   
       const loggedInUser = this.authenticationService.getCurrentLoggedInUserInfo();

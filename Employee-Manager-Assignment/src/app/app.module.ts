@@ -11,6 +11,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AddUserComponent } from './home/add-user/add-user.component';
+import { LoadingSpinnerComponent } from './Shared/loading-spinner/loading-spinner.component';
+import { ListUserComponent } from './home/list-user/list-user.component';
+import { StatusFilterPipe } from './Filters/status-filter.pipe';
+import { RoleFilterPipe } from './Filters/role-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -20,7 +24,11 @@ import { AddUserComponent } from './home/add-user/add-user.component';
     HeaderComponent,
     PageNotFoundComponent,
     ProfileComponent,
-    AddUserComponent
+    AddUserComponent,
+    LoadingSpinnerComponent,
+    ListUserComponent,
+    StatusFilterPipe,
+    RoleFilterPipe,
   ],
   imports: [
     BrowserModule,

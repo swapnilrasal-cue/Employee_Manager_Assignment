@@ -1,10 +1,10 @@
 
   <div class="container">
     <div class="row">
+        <div class="half-page" *ngIf="isLoading">
+          <app-loading-spinner></app-loading-spinner>
+        </div>
 
-        <!-- <div class="half-page" *ngIf="isLoading">
-            <app-loading-spinner></app-loading-spinner>
-        </div> -->
       <div class="col-xs-12 col-sm-5 col-md-6 col-sm-offset-3  form-container" *ngIf="!isLoading">
         <h2> Login</h2>
         <hr>
@@ -32,7 +32,7 @@
           </div>
             <button class="btn btn-primary submmit-btn" type="submit"
             [disabled]="!loginForm.valid"
-            >Create User</button>
+            >Login</button>
         </form>
       </div>
     </div>
