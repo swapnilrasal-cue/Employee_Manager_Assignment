@@ -15,6 +15,7 @@ import { LoadingSpinnerComponent } from './Shared/loading-spinner/loading-spinne
 import { ListUserComponent } from './home/list-user/list-user.component';
 import { StatusFilterPipe } from './Filters/status-filter.pipe';
 import { RoleFilterPipe } from './Filters/role-filter.pipe';
+import { EditUserComponent } from './home/edit-user/edit-user.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { RoleFilterPipe } from './Filters/role-filter.pipe';
     ListUserComponent,
     StatusFilterPipe,
     RoleFilterPipe,
+    EditUserComponent,
   ],
   imports: [
     BrowserModule,

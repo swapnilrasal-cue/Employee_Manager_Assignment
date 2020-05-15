@@ -1,5 +1,5 @@
 
-  <div class="container main-body">
+  <div class="right-pannel">
     <div class="row">
 
     <div class="half-page" *ngIf="isLoading">
@@ -7,35 +7,22 @@
     </div>
 
      <div class="col-xs-12 col-sm-5 col-md-6 col-sm-offset-3  form-container" *ngIf="!isLoading">
-        <h2> User Details</h2>
+        <h2> Edit User Details</h2>
         <hr>
         <!-- <div class="alert alert-danger" *ngIf="error">
             <p>{{ error }}</p>
         </div> -->
         <form [formGroup]="EditUserForm" (ngSubmit)="onEditUser()" >
           
-          
           <div class="form-group">
             <label for="email">Email</label>
-            <input
+            <input disabled
               type="email"
               id="email"
               formControlName="email"
               class="form-control"
               disabled>
           </div>
-          
-          <div class="form-group">
-            <label for="status">Role</label>
-            <select disabled
-              id="role"
-              formControlName="role"
-              class="form-control">
-              <option value="Admin">Admin</option>
-              <option value="Employee">Employee</option>
-            </select>
-          </div>
-
 
           <div class="form-group">
             <label for="name">Name</label>
@@ -46,20 +33,29 @@
               class="form-control"
               >
           </div>
-          
-          
-          <!-- <div class="form-group">
-            <label for="status">Status</label>
+
+         <div class="form-group">
+            <label for="disabled">Status</label>
             <select
-              id="status"
-              formControlName="status"
+              id="disabled"
+              formControlName="disabled"
               class="form-control">
-              <option value="Activate">Activate</option>
-              <option value="InActivate">InActivate</option>
+              <option value="false">Activate</option>
+              <option value="true">InActivate</option>
             </select>
-          </div> -->
+          </div> 
 
-
+         <div class="form-group">
+            <label for="role">Role</label>
+            <select disabled
+              id="role"
+              formControlName="role"
+              class="form-control">
+              <option value="Admin">Admin</option>
+              <option value="Employee">Employee</option>
+            </select>
+          </div>
+          
           <div class="form-group">
             <label for="password">Password</label>
             <input
@@ -79,15 +75,16 @@
           </div>
 
           <div class="radio" *ngFor="let gender of genders">
-           <label>
-               <input 
-               type="radio"
-               formControlName="gender"
-               [value]="gender"
-               >
-               {{ gender }}
-           </label>
-          </div>
+            <label>
+                <input 
+                type="radio"
+                formControlName="gender"
+                [value]="gender"
+                >
+                {{ gender }}
+            </label>
+           </div>
+
             <button class="btn btn-primary form-submit-button " 
             type="submit"
             [disabled]="!EditUserForm.valid">Edit Details</button>

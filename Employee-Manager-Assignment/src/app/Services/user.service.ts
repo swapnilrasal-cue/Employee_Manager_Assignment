@@ -15,7 +15,8 @@ export class UserService {
 
       // getDataAvailability = new Subject<boolean>();
       // getFilteredTodo = new Subject<User[]>();
-    
+      // updateUserRecords = [];
+      updateUserRecords:any;
       isAllowed = false
       users: User[] = [];
       apiUrl="https://employee-manager-app-e42a3.firebaseio.com/";
@@ -111,15 +112,128 @@ export class UserService {
         (this.apiUrl + '/users/'+id+'.json');
       }
 
-      updateUserRecord(id){
-        console.log("Delete function");
-      }
+      // updateUserRecord(id){
+      //   console.log("Delete function");
+      // }
 
       ChangeStatus(id){
         console.log("Activate / Deactivate Function");
       }
     
     
+      getUserDetail(){
+        return this.http.get<User[]>(
+            this.apiUrl + 'users.json'
+          )
+          .pipe(
+            map(users =>  {
+              this.users = [];
+              let loginUserData = JSON.parse(localStorage.getItem('Data'));
+              for (const key in users) {
+                if (users.hasOwnProperty(key)) {
+                  const user = users[key];
+                  user.loginStatus = (user.email == loginUserData.email);    
+                  this.users.push(user);
+                }
+              }
+              return this.users;
+            })
+          ).subscribe((users) => {
+            this.setUsers(users)
+          });
+      }
+
+          
+      getDetail(){
+        return this.http.get<User[]>(
+            this.apiUrl + 'users.json'
+          )
+          .subscribe((users) => {
+            console.log(users);
+            this.setUsers(users)
+          });
+          // .pipe(
+          //   map(users =>  {
+          //     this.users = [];
+          //     // let loginUserData = JSON.parse(localStorage.getItem('Data'));
+          //     for (const user in users) {
+          //       // if (users.hasOwnProperty(key)) {
+          //         // const user = users[key];
+          //         // user.loginStatus = (user.email == loginUserData.email);    
+          //         this.users.push(user);
+          //       }
+          //     }
+          //     return this.users;
+          //   })
+          // )
+          
+      }
+
+      getCurrentLoggedInUserInfo(){
+        return this.users.find(data => data.loginStatus == true);
+       }
+
+       
+    updateUser(updatedInfo) {
+      let index = this.users.findIndex((user) => user.email == updatedInfo.email);
+      this.users[index].name = updatedInfo.name;
+      this.users[index].email = updatedInfo.email;
+      this.users[index].disabled = updatedInfo.disabled;
+      this.users[index].role = updatedInfo.role;
+      this.users[index].password = updatedInfo.password;
+      this.users[index].date = updatedInfo.date;
+      this.users[index].gender = updatedInfo.gender;
+  
+      return this.http.put(
+        this.apiUrl + '/users.json',
+        this.users
+      );
+    }
+  
+      // updateUser(updatedInfo) {
+      //   // let index = this.users.findIndex((user) => user.loginStatus == true);
+      //   let data :any;
+      //   this.users.forEach(user => {
+      //     if(user.email === updatedInfo.email){
+      //       user.name = updatedInfo.name;
+      //       user.email = updatedInfo.email;
+      //       user.disabled = updatedInfo.disabled;
+      //       user.role = updatedInfo.role;
+      //       user.password = updatedInfo.password;
+      //       user.date = updatedInfo.date;
+      //       user.gender = updatedInfo.gender;
+            
+      //       data = this.http.put(
+      //         this.apiUrl + '/users/'+updatedInfo.email+'.json',
+      //         user
+      //       );
+      //     }
+            
+      //   });
+      //   return data;
+      // }
+
+      updateRecord(id){
+        console.log("updateUserRecord function");
+        this.updateUserRecords = null;
+        var user = this.http.
+        get
+        (this.apiUrl + '/users/'+id+'.json').pipe(tap(
+          Response=> {
+           console.log(Response);
+          this.updateUserRecords = Response;
+          //  this.updateUserRecords.push(Response);
+          }));
+        return user;
+      }
+
+      getUpdateRecord(){
+        console.log(this.updateUserRecords);
+        return this.updateUserRecords;
+        
+      }
+
+
 }
 
       // onLogin(email : string, password : string ){
@@ -169,28 +283,6 @@ export class UserService {
       //   }
       // }
     
-      //  getUserDetail() {
-      //   return this.http.get<User[]>(
-      //       this.apiUrl + 'users.json'
-      //     )
-      //     .pipe(
-      //       map(users =>  {
-      //         this.users = [];
-      //         let loginUserData = JSON.parse(localStorage.getItem('Data'));
-      //         for (const key in users) {
-      //           if (users.hasOwnProperty(key)) {
-      //             const user = users[key];
-      //             user.loginStatus = (user.email == loginUserData.email);    
-      //             this.users.push(user);
-      //           }
-      //         }
-      //         return this.users;
-      //       })
-      //     ).subscribe((users) => {
-      //       this.setUsers(users)
-      //     });
-      // }
-    
       // getPerticullarUserDetails(id){
       //   this.http.get(this.apiUrl+"/users/"+id+".json")
       //   .subscribe(
@@ -230,26 +322,8 @@ export class UserService {
       //   return throwError(errorMessage);
       // }
   
-      //  getCurrentLoggedInUserInfo(){
-      //   return this.users.find(x => x.loginStatus == true);
-      //  }
     
        
-      // updateUser(updatedInfo) {
-      //   let index = this.users.findIndex((user) => user.loginStatus == true);
-      //   this.users[index].name = updatedInfo.name;
-      //   this.users[index].email = updatedInfo.email;
-      //   this.users[index].status = updatedInfo.status;
-      //   this.users[index].role = updatedInfo.role;
-      //   this.users[index].password = updatedInfo.password;
-      //   this.users[index].date = updatedInfo.date;
-      //   this.users[index].gender = updatedInfo.gender;
-    
-      //   return this.http.put(
-      //     this.apiUrl + 'users.json',
-      //     this.users
-      //   );
-      // }
     
       
       // checkIsAllowed(){

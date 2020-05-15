@@ -63,7 +63,7 @@
                 <td><input type="checkbox" ></td>
                 <td>{{ user.name}}</td>
                 <td>{{ user.email }}</td>
-                <td>{{ user.status }}</td>
+                <td>{{ user.disabled }}</td>
                 <td>{{ user.role}}</td>
                 <td>{{ user.password}}</td>
                 <td>{{ user.date}}</td>
@@ -72,8 +72,8 @@
                 <td><button class="btn btn-danger" (click)="deleteRecord(user.id)">Delete</button></td>
                 <td>
                     <button class="btn btn-success" (click)="onChangeStatus(user.id)">
-                        <span *ngIf="user.status == 'Activate'">Deactivate</span> 
-                        <span *ngIf="user.status == 'InActivate'">Activate</span>
+                        <span *ngIf="user.disabled == 'false'">Deactivate</span> 
+                        <span *ngIf="user.disabled == 'true'">Activate</span>
                     </button>
                 </td>
             </tr>

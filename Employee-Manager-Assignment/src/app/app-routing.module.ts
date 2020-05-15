@@ -8,6 +8,7 @@ import { AuthenticationGuard } from './Guards/authentication.guard';
 import { ProfileComponent } from './profile/profile.component';
 import { AddUserComponent } from './home/add-user/add-user.component';
 import { ListUserComponent } from './home/list-user/list-user.component';
+import { EditUserComponent } from './home/edit-user/edit-user.component';
 
 
 const routes: Routes = [
@@ -16,7 +17,9 @@ const routes: Routes = [
   {path : 'home' , component : HomeComponent,canActivate : [AuthenticationGuard],  
     children :  [
       { path : 'addUser' ,component : AddUserComponent},
+      { path : 'editUser' ,component : EditUserComponent},
       { path : 'listUser' ,component : ListUserComponent},
+
     ] 
   },
   {path : 'header' , component : HeaderComponent ,canActivate : [AuthenticationGuard]},

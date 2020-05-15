@@ -21,12 +21,12 @@ export class AddUserComponent implements OnInit {
     this.CreateNewUserForm = new FormGroup({      
        'name': new FormControl(null,[Validators.required ]),
        'email': new FormControl(null, [Validators.required, Validators.email]),
-       'status': new FormControl('Activate'), 
-       'role' : new FormControl('Employee'),
+       'disabled': new FormControl('false',Validators.required), 
+       'role' : new FormControl('Employee',Validators.required),
        'password': new FormControl(null,Validators.required),
-       'date': new FormControl(null),
-       'gender': new FormControl('Male'),
-
+       'date': new FormControl(null,Validators.required),
+       'gender': new FormControl('Male',Validators.required),
+      //  'disabled':new FormControl('true')
     });
   }
 
@@ -35,11 +35,12 @@ export class AddUserComponent implements OnInit {
     const newUser = new User(
       this.CreateNewUserForm.value.name,
       this.CreateNewUserForm.value.email,
-      this.CreateNewUserForm.value.status,
+      this.CreateNewUserForm.value.disabled,
       this.CreateNewUserForm.value.role,  
       this.CreateNewUserForm.value.password,
        this.CreateNewUserForm.value.date,
        this.CreateNewUserForm.value.gender,
+      //  this.CreateNewUserForm.value.disabled
     )
  
     this.userService.onCreateUser(newUser).subscribe(ResponseData =>{

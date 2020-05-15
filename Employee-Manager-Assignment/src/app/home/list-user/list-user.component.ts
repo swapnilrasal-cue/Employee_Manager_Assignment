@@ -16,6 +16,7 @@ import { BehaviorSubject } from 'rxjs';
 export class ListUserComponent implements OnInit {
 
   @Input() searchModel;
+  // updateUserRecords = [];
 
   SeachModelChange = new BehaviorSubject<User>(null);
 
@@ -109,8 +110,17 @@ export class ListUserComponent implements OnInit {
 
   updateRecord(id){
     console.log(id);
-   this.userService.updateUserRecord(id);
+    this.userService.updateRecord(id).subscribe(
+     Response=> {
+      console.log(Response);
+      this.router.navigate(['/home/editUser']);
+     });
   }
+
+  // updateRecord(id){
+  //   console.log(id);
+  //  this.userService.updateUserRecord(id);
+  // }
 
   onChangeStatus(id){
   this.userService.ChangeStatus(id);

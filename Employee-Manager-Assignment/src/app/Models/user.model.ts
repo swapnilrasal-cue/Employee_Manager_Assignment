@@ -4,11 +4,12 @@ export class User {
     constructor(
         public name: string,
         public email: string,
-        public status: string,
+        public disabled: false,
         public role: Role,
         public password: string,
         public date : Date,
         public gender: string,
+        // public disabled : true,
         public loginStatus: boolean = false
     ) { }
 

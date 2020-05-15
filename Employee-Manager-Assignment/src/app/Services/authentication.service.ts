@@ -15,6 +15,8 @@ export class AuthenticationService {
     getDataAvailability = new Subject<boolean>();
     getFilteredTodo = new Subject<User[]>();
   
+    updateUserRecords:any;
+
     isAllowed = false
     users: User[] = [];
     apiUrl="https://employee-manager-app-e42a3.firebaseio.com/";
@@ -212,7 +214,7 @@ export class AuthenticationService {
       let index = this.users.findIndex((user) => user.loginStatus == true);
       this.users[index].name = updatedInfo.name;
       this.users[index].email = updatedInfo.email;
-      this.users[index].status = updatedInfo.status;
+      // this.users[index].status = updatedInfo.status;
       this.users[index].role = updatedInfo.role;
       this.users[index].password = updatedInfo.password;
       this.users[index].date = updatedInfo.date;
@@ -224,6 +226,27 @@ export class AuthenticationService {
       );
     }
   
+    
+    updateRecord(id){
+      console.log("updateUserRecord function");
+      this.updateUserRecords = null;
+      var user = this.http.
+      get
+      (this.apiUrl + '/users/'+id+'.json').pipe(tap(
+        Response=> {
+         console.log(Response);
+        this.updateUserRecords = Response;
+        //  this.updateUserRecords.push(Response);
+        }));
+      return user;
+    }
+
+    getUpdateRecord(){
+      console.log(this.updateUserRecords);
+      return this.updateUserRecords;
+      
+    }
+
     
     // checkIsAllowed(){
     //   let test =  this.getCurrentLoggedInUserInfo();
